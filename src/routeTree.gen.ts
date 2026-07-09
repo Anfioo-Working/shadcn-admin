@@ -41,6 +41,20 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedEcommerceTrafficIndexRouteImport } from './routes/_authenticated/ecommerce/traffic/index'
+import { Route as AuthenticatedEcommerceInventoryIndexRouteImport } from './routes/_authenticated/ecommerce/inventory/index'
+import { Route as AuthenticatedEcommerceAftersalesIndexRouteImport } from './routes/_authenticated/ecommerce/aftersales/index'
+import { Route as AuthenticatedEcommerceAdsIndexRouteImport } from './routes/_authenticated/ecommerce/ads/index'
+import { Route as AuthenticatedEcommerceSettingsStoresIndexRouteImport } from './routes/_authenticated/ecommerce/settings/stores/index'
+import { Route as AuthenticatedEcommerceSettingsDataIndexRouteImport } from './routes/_authenticated/ecommerce/settings/data/index'
+import { Route as AuthenticatedEcommerceSettingsChannelsIndexRouteImport } from './routes/_authenticated/ecommerce/settings/channels/index'
+import { Route as AuthenticatedEcommerceSalesTrendIndexRouteImport } from './routes/_authenticated/ecommerce/sales/trend/index'
+import { Route as AuthenticatedEcommerceSalesOrdersIndexRouteImport } from './routes/_authenticated/ecommerce/sales/orders/index'
+import { Route as AuthenticatedEcommerceSalesChannelIndexRouteImport } from './routes/_authenticated/ecommerce/sales/channel/index'
+import { Route as AuthenticatedEcommerceProductsListIndexRouteImport } from './routes/_authenticated/ecommerce/products/list/index'
+import { Route as AuthenticatedEcommerceProductsHotIndexRouteImport } from './routes/_authenticated/ecommerce/products/hot/index'
+import { Route as AuthenticatedEcommerceProductsCategoryIndexRouteImport } from './routes/_authenticated/ecommerce/products/category/index'
+import { Route as AuthenticatedEcommerceInventoryAlertsIndexRouteImport } from './routes/_authenticated/ecommerce/inventory/alerts/index'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -210,6 +224,90 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedEcommerceTrafficIndexRoute =
+  AuthenticatedEcommerceTrafficIndexRouteImport.update({
+    id: '/ecommerce/traffic/',
+    path: '/ecommerce/traffic/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceInventoryIndexRoute =
+  AuthenticatedEcommerceInventoryIndexRouteImport.update({
+    id: '/ecommerce/inventory/',
+    path: '/ecommerce/inventory/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceAftersalesIndexRoute =
+  AuthenticatedEcommerceAftersalesIndexRouteImport.update({
+    id: '/ecommerce/aftersales/',
+    path: '/ecommerce/aftersales/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceAdsIndexRoute =
+  AuthenticatedEcommerceAdsIndexRouteImport.update({
+    id: '/ecommerce/ads/',
+    path: '/ecommerce/ads/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSettingsStoresIndexRoute =
+  AuthenticatedEcommerceSettingsStoresIndexRouteImport.update({
+    id: '/ecommerce/settings/stores/',
+    path: '/ecommerce/settings/stores/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSettingsDataIndexRoute =
+  AuthenticatedEcommerceSettingsDataIndexRouteImport.update({
+    id: '/ecommerce/settings/data/',
+    path: '/ecommerce/settings/data/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSettingsChannelsIndexRoute =
+  AuthenticatedEcommerceSettingsChannelsIndexRouteImport.update({
+    id: '/ecommerce/settings/channels/',
+    path: '/ecommerce/settings/channels/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSalesTrendIndexRoute =
+  AuthenticatedEcommerceSalesTrendIndexRouteImport.update({
+    id: '/ecommerce/sales/trend/',
+    path: '/ecommerce/sales/trend/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSalesOrdersIndexRoute =
+  AuthenticatedEcommerceSalesOrdersIndexRouteImport.update({
+    id: '/ecommerce/sales/orders/',
+    path: '/ecommerce/sales/orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceSalesChannelIndexRoute =
+  AuthenticatedEcommerceSalesChannelIndexRouteImport.update({
+    id: '/ecommerce/sales/channel/',
+    path: '/ecommerce/sales/channel/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceProductsListIndexRoute =
+  AuthenticatedEcommerceProductsListIndexRouteImport.update({
+    id: '/ecommerce/products/list/',
+    path: '/ecommerce/products/list/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceProductsHotIndexRoute =
+  AuthenticatedEcommerceProductsHotIndexRouteImport.update({
+    id: '/ecommerce/products/hot/',
+    path: '/ecommerce/products/hot/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceProductsCategoryIndexRoute =
+  AuthenticatedEcommerceProductsCategoryIndexRouteImport.update({
+    id: '/ecommerce/products/category/',
+    path: '/ecommerce/products/category/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEcommerceInventoryAlertsIndexRoute =
+  AuthenticatedEcommerceInventoryAlertsIndexRouteImport.update({
+    id: '/ecommerce/inventory/alerts/',
+    path: '/ecommerce/inventory/alerts/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -241,6 +339,20 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/ecommerce/ads/': typeof AuthenticatedEcommerceAdsIndexRoute
+  '/ecommerce/aftersales/': typeof AuthenticatedEcommerceAftersalesIndexRoute
+  '/ecommerce/inventory/': typeof AuthenticatedEcommerceInventoryIndexRoute
+  '/ecommerce/traffic/': typeof AuthenticatedEcommerceTrafficIndexRoute
+  '/ecommerce/inventory/alerts/': typeof AuthenticatedEcommerceInventoryAlertsIndexRoute
+  '/ecommerce/products/category/': typeof AuthenticatedEcommerceProductsCategoryIndexRoute
+  '/ecommerce/products/hot/': typeof AuthenticatedEcommerceProductsHotIndexRoute
+  '/ecommerce/products/list/': typeof AuthenticatedEcommerceProductsListIndexRoute
+  '/ecommerce/sales/channel/': typeof AuthenticatedEcommerceSalesChannelIndexRoute
+  '/ecommerce/sales/orders/': typeof AuthenticatedEcommerceSalesOrdersIndexRoute
+  '/ecommerce/sales/trend/': typeof AuthenticatedEcommerceSalesTrendIndexRoute
+  '/ecommerce/settings/channels/': typeof AuthenticatedEcommerceSettingsChannelsIndexRoute
+  '/ecommerce/settings/data/': typeof AuthenticatedEcommerceSettingsDataIndexRoute
+  '/ecommerce/settings/stores/': typeof AuthenticatedEcommerceSettingsStoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -271,6 +383,20 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/ecommerce/ads': typeof AuthenticatedEcommerceAdsIndexRoute
+  '/ecommerce/aftersales': typeof AuthenticatedEcommerceAftersalesIndexRoute
+  '/ecommerce/inventory': typeof AuthenticatedEcommerceInventoryIndexRoute
+  '/ecommerce/traffic': typeof AuthenticatedEcommerceTrafficIndexRoute
+  '/ecommerce/inventory/alerts': typeof AuthenticatedEcommerceInventoryAlertsIndexRoute
+  '/ecommerce/products/category': typeof AuthenticatedEcommerceProductsCategoryIndexRoute
+  '/ecommerce/products/hot': typeof AuthenticatedEcommerceProductsHotIndexRoute
+  '/ecommerce/products/list': typeof AuthenticatedEcommerceProductsListIndexRoute
+  '/ecommerce/sales/channel': typeof AuthenticatedEcommerceSalesChannelIndexRoute
+  '/ecommerce/sales/orders': typeof AuthenticatedEcommerceSalesOrdersIndexRoute
+  '/ecommerce/sales/trend': typeof AuthenticatedEcommerceSalesTrendIndexRoute
+  '/ecommerce/settings/channels': typeof AuthenticatedEcommerceSettingsChannelsIndexRoute
+  '/ecommerce/settings/data': typeof AuthenticatedEcommerceSettingsDataIndexRoute
+  '/ecommerce/settings/stores': typeof AuthenticatedEcommerceSettingsStoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -306,6 +432,20 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/ecommerce/ads/': typeof AuthenticatedEcommerceAdsIndexRoute
+  '/_authenticated/ecommerce/aftersales/': typeof AuthenticatedEcommerceAftersalesIndexRoute
+  '/_authenticated/ecommerce/inventory/': typeof AuthenticatedEcommerceInventoryIndexRoute
+  '/_authenticated/ecommerce/traffic/': typeof AuthenticatedEcommerceTrafficIndexRoute
+  '/_authenticated/ecommerce/inventory/alerts/': typeof AuthenticatedEcommerceInventoryAlertsIndexRoute
+  '/_authenticated/ecommerce/products/category/': typeof AuthenticatedEcommerceProductsCategoryIndexRoute
+  '/_authenticated/ecommerce/products/hot/': typeof AuthenticatedEcommerceProductsHotIndexRoute
+  '/_authenticated/ecommerce/products/list/': typeof AuthenticatedEcommerceProductsListIndexRoute
+  '/_authenticated/ecommerce/sales/channel/': typeof AuthenticatedEcommerceSalesChannelIndexRoute
+  '/_authenticated/ecommerce/sales/orders/': typeof AuthenticatedEcommerceSalesOrdersIndexRoute
+  '/_authenticated/ecommerce/sales/trend/': typeof AuthenticatedEcommerceSalesTrendIndexRoute
+  '/_authenticated/ecommerce/settings/channels/': typeof AuthenticatedEcommerceSettingsChannelsIndexRoute
+  '/_authenticated/ecommerce/settings/data/': typeof AuthenticatedEcommerceSettingsDataIndexRoute
+  '/_authenticated/ecommerce/settings/stores/': typeof AuthenticatedEcommerceSettingsStoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -339,6 +479,20 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks/'
     | '/users/'
+    | '/ecommerce/ads/'
+    | '/ecommerce/aftersales/'
+    | '/ecommerce/inventory/'
+    | '/ecommerce/traffic/'
+    | '/ecommerce/inventory/alerts/'
+    | '/ecommerce/products/category/'
+    | '/ecommerce/products/hot/'
+    | '/ecommerce/products/list/'
+    | '/ecommerce/sales/channel/'
+    | '/ecommerce/sales/orders/'
+    | '/ecommerce/sales/trend/'
+    | '/ecommerce/settings/channels/'
+    | '/ecommerce/settings/data/'
+    | '/ecommerce/settings/stores/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -369,6 +523,20 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/ecommerce/ads'
+    | '/ecommerce/aftersales'
+    | '/ecommerce/inventory'
+    | '/ecommerce/traffic'
+    | '/ecommerce/inventory/alerts'
+    | '/ecommerce/products/category'
+    | '/ecommerce/products/hot'
+    | '/ecommerce/products/list'
+    | '/ecommerce/sales/channel'
+    | '/ecommerce/sales/orders'
+    | '/ecommerce/sales/trend'
+    | '/ecommerce/settings/channels'
+    | '/ecommerce/settings/data'
+    | '/ecommerce/settings/stores'
   id:
     | '__root__'
     | '/_authenticated'
@@ -403,6 +571,20 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/ecommerce/ads/'
+    | '/_authenticated/ecommerce/aftersales/'
+    | '/_authenticated/ecommerce/inventory/'
+    | '/_authenticated/ecommerce/traffic/'
+    | '/_authenticated/ecommerce/inventory/alerts/'
+    | '/_authenticated/ecommerce/products/category/'
+    | '/_authenticated/ecommerce/products/hot/'
+    | '/_authenticated/ecommerce/products/list/'
+    | '/_authenticated/ecommerce/sales/channel/'
+    | '/_authenticated/ecommerce/sales/orders/'
+    | '/_authenticated/ecommerce/sales/trend/'
+    | '/_authenticated/ecommerce/settings/channels/'
+    | '/_authenticated/ecommerce/settings/data/'
+    | '/_authenticated/ecommerce/settings/stores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -646,6 +828,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ecommerce/traffic/': {
+      id: '/_authenticated/ecommerce/traffic/'
+      path: '/ecommerce/traffic'
+      fullPath: '/ecommerce/traffic/'
+      preLoaderRoute: typeof AuthenticatedEcommerceTrafficIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/inventory/': {
+      id: '/_authenticated/ecommerce/inventory/'
+      path: '/ecommerce/inventory'
+      fullPath: '/ecommerce/inventory/'
+      preLoaderRoute: typeof AuthenticatedEcommerceInventoryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/aftersales/': {
+      id: '/_authenticated/ecommerce/aftersales/'
+      path: '/ecommerce/aftersales'
+      fullPath: '/ecommerce/aftersales/'
+      preLoaderRoute: typeof AuthenticatedEcommerceAftersalesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/ads/': {
+      id: '/_authenticated/ecommerce/ads/'
+      path: '/ecommerce/ads'
+      fullPath: '/ecommerce/ads/'
+      preLoaderRoute: typeof AuthenticatedEcommerceAdsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/settings/stores/': {
+      id: '/_authenticated/ecommerce/settings/stores/'
+      path: '/ecommerce/settings/stores'
+      fullPath: '/ecommerce/settings/stores/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSettingsStoresIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/settings/data/': {
+      id: '/_authenticated/ecommerce/settings/data/'
+      path: '/ecommerce/settings/data'
+      fullPath: '/ecommerce/settings/data/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSettingsDataIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/settings/channels/': {
+      id: '/_authenticated/ecommerce/settings/channels/'
+      path: '/ecommerce/settings/channels'
+      fullPath: '/ecommerce/settings/channels/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSettingsChannelsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/sales/trend/': {
+      id: '/_authenticated/ecommerce/sales/trend/'
+      path: '/ecommerce/sales/trend'
+      fullPath: '/ecommerce/sales/trend/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSalesTrendIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/sales/orders/': {
+      id: '/_authenticated/ecommerce/sales/orders/'
+      path: '/ecommerce/sales/orders'
+      fullPath: '/ecommerce/sales/orders/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSalesOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/sales/channel/': {
+      id: '/_authenticated/ecommerce/sales/channel/'
+      path: '/ecommerce/sales/channel'
+      fullPath: '/ecommerce/sales/channel/'
+      preLoaderRoute: typeof AuthenticatedEcommerceSalesChannelIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/products/list/': {
+      id: '/_authenticated/ecommerce/products/list/'
+      path: '/ecommerce/products/list'
+      fullPath: '/ecommerce/products/list/'
+      preLoaderRoute: typeof AuthenticatedEcommerceProductsListIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/products/hot/': {
+      id: '/_authenticated/ecommerce/products/hot/'
+      path: '/ecommerce/products/hot'
+      fullPath: '/ecommerce/products/hot/'
+      preLoaderRoute: typeof AuthenticatedEcommerceProductsHotIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/products/category/': {
+      id: '/_authenticated/ecommerce/products/category/'
+      path: '/ecommerce/products/category'
+      fullPath: '/ecommerce/products/category/'
+      preLoaderRoute: typeof AuthenticatedEcommerceProductsCategoryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecommerce/inventory/alerts/': {
+      id: '/_authenticated/ecommerce/inventory/alerts/'
+      path: '/ecommerce/inventory/alerts'
+      fullPath: '/ecommerce/inventory/alerts/'
+      preLoaderRoute: typeof AuthenticatedEcommerceInventoryAlertsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -683,6 +963,20 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedKanbanIndexRoute: typeof AuthenticatedKanbanIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedEcommerceAdsIndexRoute: typeof AuthenticatedEcommerceAdsIndexRoute
+  AuthenticatedEcommerceAftersalesIndexRoute: typeof AuthenticatedEcommerceAftersalesIndexRoute
+  AuthenticatedEcommerceInventoryIndexRoute: typeof AuthenticatedEcommerceInventoryIndexRoute
+  AuthenticatedEcommerceTrafficIndexRoute: typeof AuthenticatedEcommerceTrafficIndexRoute
+  AuthenticatedEcommerceInventoryAlertsIndexRoute: typeof AuthenticatedEcommerceInventoryAlertsIndexRoute
+  AuthenticatedEcommerceProductsCategoryIndexRoute: typeof AuthenticatedEcommerceProductsCategoryIndexRoute
+  AuthenticatedEcommerceProductsHotIndexRoute: typeof AuthenticatedEcommerceProductsHotIndexRoute
+  AuthenticatedEcommerceProductsListIndexRoute: typeof AuthenticatedEcommerceProductsListIndexRoute
+  AuthenticatedEcommerceSalesChannelIndexRoute: typeof AuthenticatedEcommerceSalesChannelIndexRoute
+  AuthenticatedEcommerceSalesOrdersIndexRoute: typeof AuthenticatedEcommerceSalesOrdersIndexRoute
+  AuthenticatedEcommerceSalesTrendIndexRoute: typeof AuthenticatedEcommerceSalesTrendIndexRoute
+  AuthenticatedEcommerceSettingsChannelsIndexRoute: typeof AuthenticatedEcommerceSettingsChannelsIndexRoute
+  AuthenticatedEcommerceSettingsDataIndexRoute: typeof AuthenticatedEcommerceSettingsDataIndexRoute
+  AuthenticatedEcommerceSettingsStoresIndexRoute: typeof AuthenticatedEcommerceSettingsStoresIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -696,6 +990,33 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedKanbanIndexRoute: AuthenticatedKanbanIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedEcommerceAdsIndexRoute: AuthenticatedEcommerceAdsIndexRoute,
+  AuthenticatedEcommerceAftersalesIndexRoute:
+    AuthenticatedEcommerceAftersalesIndexRoute,
+  AuthenticatedEcommerceInventoryIndexRoute:
+    AuthenticatedEcommerceInventoryIndexRoute,
+  AuthenticatedEcommerceTrafficIndexRoute:
+    AuthenticatedEcommerceTrafficIndexRoute,
+  AuthenticatedEcommerceInventoryAlertsIndexRoute:
+    AuthenticatedEcommerceInventoryAlertsIndexRoute,
+  AuthenticatedEcommerceProductsCategoryIndexRoute:
+    AuthenticatedEcommerceProductsCategoryIndexRoute,
+  AuthenticatedEcommerceProductsHotIndexRoute:
+    AuthenticatedEcommerceProductsHotIndexRoute,
+  AuthenticatedEcommerceProductsListIndexRoute:
+    AuthenticatedEcommerceProductsListIndexRoute,
+  AuthenticatedEcommerceSalesChannelIndexRoute:
+    AuthenticatedEcommerceSalesChannelIndexRoute,
+  AuthenticatedEcommerceSalesOrdersIndexRoute:
+    AuthenticatedEcommerceSalesOrdersIndexRoute,
+  AuthenticatedEcommerceSalesTrendIndexRoute:
+    AuthenticatedEcommerceSalesTrendIndexRoute,
+  AuthenticatedEcommerceSettingsChannelsIndexRoute:
+    AuthenticatedEcommerceSettingsChannelsIndexRoute,
+  AuthenticatedEcommerceSettingsDataIndexRoute:
+    AuthenticatedEcommerceSettingsDataIndexRoute,
+  AuthenticatedEcommerceSettingsStoresIndexRoute:
+    AuthenticatedEcommerceSettingsStoresIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

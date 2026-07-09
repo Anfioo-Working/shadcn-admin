@@ -23,6 +23,16 @@ import {
   GalleryVerticalEnd,
   LayoutGrid,
   BarChart3,
+  TrendingUp,
+  ShoppingCart,
+  Globe,
+  Megaphone,
+  Archive,
+  Headphones,
+  Store,
+  Settings2,
+  DollarSign,
+  PieChart,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -70,11 +80,6 @@ export const sidebarData: SidebarData = {
           icon: LayoutGrid,
         },
         {
-          title: '电商看板',
-          url: '/ecommerce',
-          icon: BarChart3,
-        },
-        {
           title: 'Apps',
           url: '/apps',
           icon: Package,
@@ -107,6 +112,109 @@ export const sidebarData: SidebarData = {
               url: '/clerk/user-management',
             },
           ],
+        },
+      ],
+    },
+    {
+      title: '电商中心',
+      items: [
+        {
+          title: '数据概览',
+          url: '/ecommerce',
+          icon: BarChart3,
+        },
+        {
+          title: '销售分析',
+          icon: TrendingUp,
+          items: [
+            {
+              title: '销售趋势',
+              url: '/ecommerce/sales/trend',
+              icon: TrendingUp,
+            },
+            {
+              title: '渠道分析',
+              url: '/ecommerce/sales/channel',
+              icon: PieChart,
+            },
+            {
+              title: '订单管理',
+              url: '/ecommerce/sales/orders',
+              icon: ShoppingCart,
+            },
+          ],
+        },
+        {
+          title: '商品分析',
+          icon: Package,
+          items: [
+            {
+              title: '商品列表',
+              url: '/ecommerce/products/list',
+              icon: Package,
+            },
+            {
+              title: '热销排行',
+              url: '/ecommerce/products/hot',
+              icon: DollarSign,
+            },
+            {
+              title: '品类分析',
+              url: '/ecommerce/products/category',
+              icon: PieChart,
+            },
+          ],
+        },
+        {
+          title: '流量分析',
+          url: '/ecommerce/traffic',
+          icon: Globe,
+        },
+        {
+          title: '广告投放',
+          url: '/ecommerce/ads',
+          icon: Megaphone,
+        },
+        {
+          title: '库存管理',
+          icon: Archive,
+          items: [
+            {
+              title: '库存概览',
+              url: '/ecommerce/inventory',
+              icon: Archive,
+            },
+            {
+              title: '补货预警',
+              url: '/ecommerce/inventory/alerts',
+              icon: Bell,
+            },
+          ],
+        },
+        {
+          title: '售后中心',
+          url: '/ecommerce/aftersales',
+          icon: Headphones,
+        },
+      ],
+    },
+    {
+      title: '电商设置',
+      items: [
+        {
+          title: '店铺管理',
+          url: '/ecommerce/settings/stores',
+          icon: Store,
+        },
+        {
+          title: '渠道配置',
+          url: '/ecommerce/settings/channels',
+          icon: Globe,
+        },
+        {
+          title: '数据设置',
+          url: '/ecommerce/settings/data',
+          icon: Settings2,
         },
       ],
     },

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { EcommerceDashboard } from '@/features/ecommerce-dashboard'
+import { EcommerceOverview } from '@/features/ecommerce-dashboard/pages/overview'
 
 export const Route = createFileRoute('/_authenticated/ecommerce/')({
-  component: EcommerceDashboard,
+  component: EcommerceOverview,
 })
