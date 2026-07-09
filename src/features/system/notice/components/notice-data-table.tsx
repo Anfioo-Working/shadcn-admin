@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -38,8 +39,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { noticeList, deleteNotice } from '@/features/system/shared/api'
-import type { Notice } from '@/features/system/shared/types'
+import { noticeList, deleteNotice, updateNotice } from '@/features/system/shared/api'
+import type { Notice, NoticeForm } from '@/features/system/shared/types'
 import type { NoticeSearchParams } from './notice-search-form'
 
 interface NoticeDataTableProps {
@@ -169,25 +170,25 @@ export function NoticeDataTable({
     return <Badge variant='secondary'>{type}</Badge>
   }
 
-  // 获取状态 Badge
-  const getStatusBadge = (status: string) => {
-    if (status === '0') {
-      return <Badge variant='default'>正常</Badge>
-    } else {
-      return <Badge variant='secondary'>关闭</Badge>
-    }
+  const handleStatusChange = async (notice: Notice, checked: boolean) => {
+    const newStatus = checked ? '0' : '1'
+    await updateNotice({
+      ...notice,
+      status: newStatus,
+    } as NoticeForm)
+    loadNotices()
   }
 
   return (
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700 text-white'
             disabled={!canEdit}
             onClick={() => {
               const notice = notices.find((n) => n.noticeId === selectedIds[0])
@@ -198,7 +199,7 @@ export function NoticeDataTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
           >
@@ -264,7 +265,12 @@ export function NoticeDataTable({
                     {notice.noticeTitle}
                   </TableCell>
                   <TableCell>{getNoticeTypeBadge(notice.noticeType)}</TableCell>
-                  <TableCell>{getStatusBadge(notice.status)}</TableCell>
+                  <TableCell>
+            <Switch
+              checked={notice.status === '0'}
+              onCheckedChange={(checked) => handleStatusChange(notice, checked)}
+            />
+          </TableCell>
                   <TableCell>{notice.createByName}</TableCell>
                   <TableCell>{formatDate(notice.createTime)}</TableCell>
                   <TableCell>

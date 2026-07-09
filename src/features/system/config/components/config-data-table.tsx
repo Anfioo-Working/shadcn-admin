@@ -21,8 +21,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -44,8 +44,9 @@ import {
   configList,
   deleteConfig,
   refreshConfigCache,
+  updateConfig,
 } from '@/features/system/shared/api'
-import type { Config } from '@/features/system/shared/types'
+import type { Config, ConfigForm } from '@/features/system/shared/types'
 import type { ConfigSearchParams } from './config-search-form'
 
 interface ConfigDataTableProps {
@@ -174,12 +175,12 @@ export function ConfigDataTable({
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700 text-white'
             disabled={!canEdit}
             onClick={() => {
               const config = configs.find((c) => c.configId === selectedIds[0])
@@ -190,14 +191,14 @@ export function ConfigDataTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
           >
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button variant='outline'>
+          <Button className='bg-amber-500 hover:bg-amber-600 text-white'>
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>
@@ -265,13 +266,17 @@ export function ConfigDataTable({
                   <TableCell>{config.configKey}</TableCell>
                   <TableCell>{config.configValue}</TableCell>
                   <TableCell>
-                    <Badge
-                      variant={
-                        config.configType === 'Y' ? 'default' : 'secondary'
-                      }
-                    >
-                      {config.configType === 'Y' ? '是' : '否'}
-                    </Badge>
+                    <Switch
+                      checked={config.configType === 'Y'}
+                      onCheckedChange={async (checked) => {
+                        const newConfigType = checked ? 'Y' : 'N'
+                        await updateConfig({
+                          ...config,
+                          configType: newConfigType,
+                        } as ConfigForm)
+                        loadConfigs()
+                      }}
+                    />
                   </TableCell>
                   <TableCell>{config.remark || '-'}</TableCell>
                   <TableCell>{config.createTime}</TableCell>

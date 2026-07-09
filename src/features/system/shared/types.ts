@@ -48,6 +48,7 @@ export interface UserQuery {
   pageNum?: number
   pageSize?: number
   userName?: string
+  nickName?: string
   phonenumber?: string
   status?: string
   deptId?: number
@@ -115,6 +116,8 @@ export interface RoleQuery {
   roleName?: string
   roleKey?: string
   status?: string
+  beginTime?: string
+  endTime?: string
 }
 
 export interface RoleForm {

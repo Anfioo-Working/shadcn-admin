@@ -241,12 +241,12 @@ export function DictTypeTable({
       {/* 工具栏 */}
       <CardContent className='p-0'>
         <div className='flex items-center gap-2 border-b px-4 py-3'>
-          <Button variant='outline' size='sm' onClick={onAdd}>
+          <Button size='sm' onClick={onAdd}>
             <PlusIcon className='size-4' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700 text-white'
             size='sm'
             disabled={!canEdit}
             onClick={() => {
@@ -260,7 +260,7 @@ export function DictTypeTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             size='sm'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
@@ -268,7 +268,7 @@ export function DictTypeTable({
             <Trash2Icon className='size-4' />
             删除
           </Button>
-          <Button variant='outline' size='sm'>
+          <Button className='bg-amber-500 hover:bg-amber-600 text-white' size='sm'>
             <DownloadIcon className='size-4' />
             导出
           </Button>

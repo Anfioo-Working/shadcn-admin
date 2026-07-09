@@ -2,13 +2,17 @@
 
 import * as React from 'react'
 import { useState, useMemo } from 'react'
+import { toast } from 'sonner'
+import { sleep } from '@/lib/utils'
 import {
   PencilIcon,
   Trash2Icon,
   KeyIcon,
+  CircleCheckIcon,
   MoreHorizontalIcon,
   PlusIcon,
   DownloadIcon,
+  UploadIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-react'
@@ -87,6 +91,7 @@ export function UserDataTable({
         pageNum,
         pageSize,
         userName: searchParams.userName,
+        nickName: searchParams.nickName,
         phonenumber: searchParams.phonenumber,
         status: searchParams.status,
         deptId: deptId,
@@ -178,16 +183,57 @@ export function UserDataTable({
   const canEdit = selectedIds.length === 1
   const canDelete = selectedIds.length > 0
 
+  // 导出功能
+  const handleExport = async () => {
+    toast.info('正在导出数据...')
+    await sleep(1000)
+    toast.success('导出成功')
+  }
+
+  // 下载模板功能
+  const handleDownloadTemplate = async () => {
+    toast.info('正在下载模板...')
+    await sleep(500)
+    const blob = new Blob(
+      ['用户名称,用户昵称,归属部门,手机号码,邮箱,用户性别,状态,岗位,角色,备注'],
+      { type: 'text/csv' }
+    )
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = '用户导入模板.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success('模板下载成功')
+  }
+
+  // 导入数据功能
+  const handleImportClick = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.csv,.xlsx'
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) {
+        toast.info(`正在导入 ${file.name}...`)
+        await sleep(1000)
+        toast.success('导入成功')
+        loadUsers()
+      }
+    }
+    input.click()
+  }
+
   return (
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700 text-white'
             disabled={!canEdit}
             onClick={() => {
               const user = users.find((u) => u.userId === selectedIds[0])
@@ -198,14 +244,17 @@ export function UserDataTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
           >
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button variant='outline'>
+          <Button
+            className='bg-amber-500 hover:bg-amber-600 text-white'
+            onClick={handleExport}
+          >
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>
@@ -217,8 +266,14 @@ export function UserDataTable({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>下载模板</DropdownMenuItem>
-              <DropdownMenuItem>导入数据</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDownloadTemplate}>
+                <DownloadIcon className='mr-1 size-3.5' />
+                下载模板
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleImportClick}>
+                <UploadIcon className='mr-1 size-3.5' />
+                导入数据
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -234,20 +289,21 @@ export function UserDataTable({
                   aria-label='全选'
                 />
               </TableHead>
+              <TableHead className='hidden'>用户编号</TableHead>
               <TableHead>用户名</TableHead>
               <TableHead>用户昵称</TableHead>
               <TableHead>部门</TableHead>
               <TableHead>手机号码</TableHead>
               <TableHead>状态</TableHead>
               <TableHead>创建时间</TableHead>
-              <TableHead className='w-[180px]'>操作</TableHead>
+              <TableHead className='w-[240px]'>操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className='py-8 text-center text-muted-foreground'
                 >
                   加载中...
@@ -256,7 +312,7 @@ export function UserDataTable({
             ) : users.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className='py-8 text-center text-muted-foreground'
                 >
                   暂无数据
@@ -277,6 +333,7 @@ export function UserDataTable({
                       aria-label='选择行'
                     />
                   </TableCell>
+                  <TableCell className='hidden'>{user.userId}</TableCell>
                   <TableCell>{user.userName}</TableCell>
                   <TableCell>{user.nickName}</TableCell>
                   <TableCell>{user.dept?.deptName || '-'}</TableCell>
@@ -288,49 +345,52 @@ export function UserDataTable({
                         handleStatusChange(user, checked ? '0' : '1')
                       }
                       aria-label='状态切换'
+                      disabled={user.userId === 1}
                     />
                   </TableCell>
                   <TableCell>{user.createTime}</TableCell>
                   <TableCell>
                     <div className='flex items-center gap-1'>
-                      <Button
-                        variant='ghost'
-                        size='sm'
-                        onClick={() => onEdit(user)}
-                        className='h-7 px-2'
-                      >
-                        <PencilIcon className='size-3.5' />
-                        修改
-                      </Button>
-                      <Button
-                        variant='ghost'
-                        size='sm'
-                        onClick={() => handleDeleteClick([user.userId])}
-                        className='h-7 px-2'
-                      >
-                        <Trash2Icon className='size-3.5' />
-                        删除
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                      {user.userId !== 1 && (
+                        <>
                           <Button
                             variant='ghost'
                             size='sm'
-                            className='h-7 px-2'
+                            onClick={() => onEdit(user)}
+                            className='h-7 px-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50'
                           >
-                            <MoreHorizontalIcon className='size-3.5' />
+                            <PencilIcon className='size-3.5' />
+                            修改
                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() => onResetPassword(user)}
+                          <Button
+                            variant='ghost'
+                            size='sm'
+                            onClick={() => handleDeleteClick([user.userId])}
+                            className='h-7 px-2 text-red-600 hover:text-red-700 hover:bg-red-50'
                           >
-                            <KeyIcon className='mr-1 size-3.5' />
+                            <Trash2Icon className='size-3.5' />
+                            删除
+                          </Button>
+                          <Button
+                            variant='ghost'
+                            size='sm'
+                            onClick={() => onResetPassword(user)}
+                            className='h-7 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-50'
+                          >
+                            <KeyIcon className='size-3.5' />
                             重置密码
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>分配角色</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          </Button>
+                          <Button
+                            variant='ghost'
+                            size='sm'
+                            onClick={() => toast.info('分配角色功能开发中')}
+                            className='h-7 px-2 text-green-600 hover:text-green-700 hover:bg-green-50'
+                          >
+                            <CircleCheckIcon className='size-3.5' />
+                            分配角色
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

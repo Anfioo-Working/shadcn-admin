@@ -1552,6 +1552,11 @@ export async function userList(
       u.userName.includes(query.userName!)
     )
   }
+  if (query.nickName) {
+    filteredUsers = filteredUsers.filter((u) =>
+      u.nickName.includes(query.nickName!)
+    )
+  }
   if (query.phonenumber) {
     filteredUsers = filteredUsers.filter((u) =>
       u.phonenumber.includes(query.phonenumber!)

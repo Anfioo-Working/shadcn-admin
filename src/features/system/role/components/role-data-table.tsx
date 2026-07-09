@@ -5,13 +5,14 @@ import { useState, useMemo } from 'react'
 import {
   PencilIcon,
   Trash2Icon,
-  MoreHorizontalIcon,
   PlusIcon,
   DownloadIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ShieldCheckIcon,
+  CircleCheckIcon,
+  UserIcon,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,16 +23,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Switch } from '@/components/ui/switch'
 import {
   Select,
   SelectContent,
@@ -47,21 +42,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { roleList, deleteRole } from '@/features/system/shared/api'
+import { roleList, deleteRole, changeRoleStatus } from '@/features/system/shared/api'
 import type { Role } from '@/features/system/shared/types'
 import type { RoleSearchParams } from './role-search-form'
 
 interface RoleDataTableProps {
   searchParams: RoleSearchParams
   onEdit: (role: Role) => void
-  onPermissionAssign: (role: Role) => void
+  onDataScopeAssign: (role: Role) => void
+  onAssignUser: (role: Role) => void
   onAdd: () => void
 }
 
 export function RoleDataTable({
   searchParams,
   onEdit,
-  onPermissionAssign,
+  onDataScopeAssign,
+  onAssignUser,
   onAdd,
 }: RoleDataTableProps) {
   const [roles, setRoles] = useState<Role[]>([])
@@ -72,8 +69,9 @@ export function RoleDataTable({
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<number[] | null>(null)
+  const [statusDialogOpen, setStatusDialogOpen] = useState(false)
+  const [statusTarget, setStatusTarget] = useState<{ roleId: number; newStatus: string } | null>(null)
 
-  // 加载角色列表
   const loadRoles = React.useCallback(async () => {
     setLoading(true)
     try {
@@ -99,7 +97,6 @@ export function RoleDataTable({
     })()
   }, [loadRoles])
 
-  // 选择相关
   const isAllSelected = useMemo(() => {
     return roles.length > 0 && selectedIds.length === roles.length
   }, [roles, selectedIds])
@@ -120,7 +117,6 @@ export function RoleDataTable({
     }
   }
 
-  // 删除操作
   const handleDeleteClick = (ids: number[]) => {
     setDeleteTarget(ids)
     setDeleteDialogOpen(true)
@@ -135,9 +131,28 @@ export function RoleDataTable({
     setDeleteTarget(null)
     setSelectedIds([])
     loadRoles()
+    toast.success('删除成功')
   }
 
-  // 分页
+  const handleStatusChange = (roleId: number, currentStatus: string) => {
+    const newStatus = currentStatus === '0' ? '1' : '0'
+    setStatusTarget({ roleId, newStatus })
+    setStatusDialogOpen(true)
+  }
+
+  const handleStatusConfirm = async () => {
+    if (!statusTarget) return
+    await changeRoleStatus(statusTarget.roleId, statusTarget.newStatus)
+    setStatusDialogOpen(false)
+    setStatusTarget(null)
+    loadRoles()
+    toast.success('状态修改成功')
+  }
+
+  const handleExport = () => {
+    toast.success('导出功能开发中')
+  }
+
   const totalPages = Math.ceil(total / pageSize)
 
   const handlePrevPage = () => {
@@ -157,7 +172,6 @@ export function RoleDataTable({
     setPageNum(1)
   }
 
-  // 工具栏按钮禁用状态
   const canEdit = selectedIds.length === 1
   const canDelete = selectedIds.length > 0
 
@@ -165,12 +179,12 @@ export function RoleDataTable({
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button variant='default' onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700'
             disabled={!canEdit}
             onClick={() => {
               const role = roles.find((r) => r.roleId === selectedIds[0])
@@ -181,14 +195,17 @@ export function RoleDataTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
           >
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button variant='outline'>
+          <Button
+            className='bg-amber-500 hover:bg-amber-600 text-white'
+            onClick={handleExport}
+          >
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>
@@ -210,7 +227,7 @@ export function RoleDataTable({
               <TableHead>显示顺序</TableHead>
               <TableHead>状态</TableHead>
               <TableHead>创建时间</TableHead>
-              <TableHead className='w-[180px]'>操作</TableHead>
+              <TableHead className='w-[240px]'>操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -245,17 +262,18 @@ export function RoleDataTable({
                         handleSelectRow(role.roleId, checked as boolean)
                       }
                       aria-label='选择行'
+                      disabled={role.roleId === 1}
                     />
                   </TableCell>
                   <TableCell>{role.roleName}</TableCell>
                   <TableCell>{role.roleKey}</TableCell>
                   <TableCell>{role.roleSort}</TableCell>
                   <TableCell>
-                    <Badge
-                      variant={role.status === '0' ? 'default' : 'secondary'}
-                    >
-                      {role.status === '0' ? '正常' : '停用'}
-                    </Badge>
+                    <Switch
+                      checked={role.status === '0'}
+                      onCheckedChange={() => handleStatusChange(role.roleId, role.status)}
+                      disabled={role.roleId === 1}
+                    />
                   </TableCell>
                   <TableCell>{role.createTime}</TableCell>
                   <TableCell>
@@ -280,26 +298,26 @@ export function RoleDataTable({
                         <Trash2Icon className='size-3.5' />
                         删除
                       </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant='ghost'
-                            size='sm'
-                            className='h-7 px-2'
-                            disabled={role.roleId === 1}
-                          >
-                            <MoreHorizontalIcon className='size-3.5' />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() => onPermissionAssign(role)}
-                          >
-                            <ShieldCheckIcon className='mr-1 size-3.5' />
-                            权限分配
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <Button
+                        variant='ghost'
+                        size='sm'
+                        onClick={() => onDataScopeAssign(role)}
+                        className='h-7 px-2'
+                        disabled={role.roleId === 1}
+                      >
+                        <CircleCheckIcon className='size-3.5' />
+                        数据权限
+                      </Button>
+                      <Button
+                        variant='ghost'
+                        size='sm'
+                        onClick={() => onAssignUser(role)}
+                        className='h-7 px-2'
+                        disabled={role.roleId === 1}
+                      >
+                        <UserIcon className='size-3.5' />
+                        分配用户
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -308,7 +326,6 @@ export function RoleDataTable({
           </TableBody>
         </Table>
 
-        {/* 分页 */}
         {total > 0 && (
           <div className='flex items-center justify-between border-t px-4 py-3'>
             <div className='flex items-center gap-2 text-sm text-muted-foreground'>
@@ -353,7 +370,6 @@ export function RoleDataTable({
         )}
       </CardContent>
 
-      {/* 删除确认对话框 */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -365,6 +381,24 @@ export function RoleDataTable({
           <AlertDialogFooter>
             <AlertDialogCancel>取消</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteConfirm}>
+              确定
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={statusDialogOpen} onOpenChange={setStatusDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>确认修改状态</AlertDialogTitle>
+            <AlertDialogDescription>
+              是否确认将角色状态修改为
+              {statusTarget?.newStatus === '0' ? '正常' : '停用'}？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction onClick={handleStatusConfirm}>
               确定
             </AlertDialogAction>
           </AlertDialogFooter>

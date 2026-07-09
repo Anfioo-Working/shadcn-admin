@@ -279,6 +279,8 @@ export function UserFormDialog({
     }
   }
 
+  const isSelf = isEdit && userId === 1
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-[600px]'>
@@ -300,17 +302,19 @@ export function UserFormDialog({
             </FormItem>
 
             {/* 归属部门 */}
-            <FormItem>
-              <FormLabel>归属部门</FormLabel>
-              <FormControl>
-                <DeptTreeSelect
-                  value={form.watch('deptId')}
-                  onChange={(value) => form.setValue('deptId', value)}
-                  treeData={deptTreeData}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            {!isSelf && (
+              <FormItem>
+                <FormLabel>归属部门</FormLabel>
+                <FormControl>
+                  <DeptTreeSelect
+                    value={form.watch('deptId')}
+                    onChange={(value) => form.setValue('deptId', value)}
+                    treeData={deptTreeData}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
 
             {/* 手机号码 */}
             <FormItem>
@@ -412,68 +416,78 @@ export function UserFormDialog({
             </FormItem>
 
             {/* 岗位 */}
-            <FormItem>
-              <FormLabel>岗位</FormLabel>
-              <FormControl>
-                <div className='flex flex-wrap gap-2'>
-                  {postOptionData.map((post) => (
-                    <label
-                      key={post.postId}
-                      className='flex cursor-pointer items-center gap-1.5'
-                    >
-                      <Checkbox
-                        checked={form.watch('postIds').includes(post.postId)}
-                        onCheckedChange={(checked) => {
-                          const current = form.getValues('postIds')
-                          if (checked) {
-                            form.setValue('postIds', [...current, post.postId])
-                          } else {
-                            form.setValue(
-                              'postIds',
-                              current.filter((id) => id !== post.postId)
-                            )
-                          }
-                        }}
-                      />
-                      <span className='text-sm'>{post.postName}</span>
-                    </label>
-                  ))}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            {!isSelf && (
+              <FormItem>
+                <FormLabel>岗位</FormLabel>
+                <FormControl>
+                  <div className='flex flex-wrap gap-2'>
+                    {postOptionData.map((post) => (
+                      <label
+                        key={post.postId}
+                        className='flex cursor-pointer items-center gap-1.5'
+                      >
+                        <Checkbox
+                          checked={form.watch('postIds').includes(post.postId)}
+                          onCheckedChange={(checked) => {
+                            const current = form.getValues('postIds')
+                            if (checked) {
+                              form.setValue('postIds', [
+                                ...current,
+                                post.postId,
+                              ])
+                            } else {
+                              form.setValue(
+                                'postIds',
+                                current.filter((id) => id !== post.postId)
+                              )
+                            }
+                          }}
+                        />
+                        <span className='text-sm'>{post.postName}</span>
+                      </label>
+                    ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
 
             {/* 角色 */}
-            <FormItem>
-              <FormLabel>角色</FormLabel>
-              <FormControl>
-                <div className='flex flex-wrap gap-2'>
-                  {roleOptionData.map((role) => (
-                    <label
-                      key={role.roleId}
-                      className='flex cursor-pointer items-center gap-1.5'
-                    >
-                      <Checkbox
-                        checked={form.watch('roleIds').includes(role.roleId)}
-                        onCheckedChange={(checked) => {
-                          const current = form.getValues('roleIds')
-                          if (checked) {
-                            form.setValue('roleIds', [...current, role.roleId])
-                          } else {
-                            form.setValue(
-                              'roleIds',
-                              current.filter((id) => id !== role.roleId)
-                            )
-                          }
-                        }}
-                      />
-                      <span className='text-sm'>{role.roleName}</span>
-                    </label>
-                  ))}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            {!isSelf && (
+              <FormItem>
+                <FormLabel>角色</FormLabel>
+                <FormControl>
+                  <div className='flex flex-wrap gap-2'>
+                    {roleOptionData.map((role) => (
+                      <label
+                        key={role.roleId}
+                        className='flex cursor-pointer items-center gap-1.5'
+                      >
+                        <Checkbox
+                          checked={form.watch('roleIds').includes(role.roleId)}
+                          onCheckedChange={(checked) => {
+                            const current = form.getValues('roleIds')
+                            if (checked) {
+                              form.setValue('roleIds', [
+                                ...current,
+                                role.roleId,
+                              ])
+                            } else {
+                              form.setValue(
+                                'roleIds',
+                                current.filter((id) => id !== role.roleId)
+                              )
+                            }
+                          }}
+                        />
+                        <span className='text-sm'>{role.roleName}</span>
+                      </label>
+                    ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
 
             {/* 备注 */}
             <FormItem className='col-span-2'>

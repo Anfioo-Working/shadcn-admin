@@ -21,6 +21,7 @@ interface UserSearchFormProps {
 
 export interface UserSearchParams {
   userName?: string
+  nickName?: string
   phonenumber?: string
   status?: string
   beginTime?: string
@@ -33,6 +34,7 @@ export function UserSearchForm({
   defaultValues,
 }: UserSearchFormProps) {
   const [userName, setUserName] = React.useState(defaultValues?.userName || '')
+  const [nickName, setNickName] = React.useState(defaultValues?.nickName || '')
   const [phonenumber, setPhonenumber] = React.useState(
     defaultValues?.phonenumber || ''
   )
@@ -46,6 +48,7 @@ export function UserSearchForm({
     void (async () => {
       if (defaultValues) {
         setUserName(defaultValues.userName || '')
+        setNickName(defaultValues.nickName || '')
         setPhonenumber(defaultValues.phonenumber || '')
         setStatus(defaultValues.status || '')
         setBeginTime(defaultValues.beginTime || '')
@@ -57,6 +60,7 @@ export function UserSearchForm({
   const handleSearch = () => {
     onSearch({
       userName: userName || undefined,
+      nickName: nickName || undefined,
       phonenumber: phonenumber || undefined,
       status: status || undefined,
       beginTime: beginTime || undefined,
@@ -66,6 +70,7 @@ export function UserSearchForm({
 
   const handleReset = () => {
     setUserName('')
+    setNickName('')
     setPhonenumber('')
     setStatus('')
     setBeginTime('')
@@ -90,6 +95,18 @@ export function UserSearchForm({
               placeholder='请输入用户名称'
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className='w-[200px]'
+            />
+          </div>
+
+          {/* 用户昵称 */}
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium'>用户昵称</label>
+            <Input
+              placeholder='请输入用户昵称'
+              value={nickName}
+              onChange={(e) => setNickName(e.target.value)}
               onKeyDown={handleKeyDown}
               className='w-[200px]'
             />

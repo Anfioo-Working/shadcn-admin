@@ -19,8 +19,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
   Table,
@@ -30,8 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { deptList, deleteDept } from '@/features/system/shared/api'
-import type { Dept } from '@/features/system/shared/types'
+import { deptList, deleteDept, updateDept } from '@/features/system/shared/api'
+import type { Dept, DeptForm } from '@/features/system/shared/types'
 
 interface DeptTreeTableProps {
   searchParams: {
@@ -172,9 +172,17 @@ export function DeptTreeTable({
           <TableCell>{dept.deptCategory}</TableCell>
           <TableCell>{dept.orderNum}</TableCell>
           <TableCell>
-            <Badge variant={dept.status === '0' ? 'default' : 'secondary'}>
-              {dept.status === '0' ? '正常' : '停用'}
-            </Badge>
+            <Switch
+              checked={dept.status === '0'}
+              onCheckedChange={async (checked) => {
+                const newStatus = checked ? '0' : '1'
+                await updateDept({
+                  ...dept,
+                  status: newStatus,
+                } as DeptForm)
+                loadDepts()
+              }}
+            />
           </TableCell>
           <TableCell>{dept.createTime}</TableCell>
           <TableCell>
@@ -224,7 +232,7 @@ export function DeptTreeTable({
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>

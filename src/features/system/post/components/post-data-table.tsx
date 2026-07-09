@@ -20,8 +20,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -39,8 +39,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { postList, deletePost } from '@/features/system/shared/api'
-import type { Post } from '@/features/system/shared/types'
+import { postList, deletePost, updatePost } from '@/features/system/shared/api'
+import type { Post, PostForm } from '@/features/system/shared/types'
 import type { PostSearchParams } from './post-search-form'
 
 interface PostDataTableProps {
@@ -155,25 +155,25 @@ export function PostDataTable({
   const canEdit = selectedIds.length === 1
   const canDelete = selectedIds.length > 0
 
-  // 状态 Badge 渲染
-  const renderStatusBadge = (status: string) => {
-    if (status === '0') {
-      return <Badge variant='default'>正常</Badge>
-    } else {
-      return <Badge variant='destructive'>停用</Badge>
-    }
+  const handleStatusChange = async (post: Post, checked: boolean) => {
+    const newStatus = checked ? '0' : '1'
+    await updatePost({
+      ...post,
+      status: newStatus,
+    } as PostForm)
+    loadPosts()
   }
 
   return (
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon data-icon='inline-start' />
             新增
           </Button>
           <Button
-            variant='outline'
+            className='bg-green-600 hover:bg-green-700 text-white'
             disabled={!canEdit}
             onClick={() => {
               const post = posts.find((p) => p.postId === selectedIds[0])
@@ -184,14 +184,14 @@ export function PostDataTable({
             修改
           </Button>
           <Button
-            variant='outline'
+            variant='destructive'
             disabled={!canDelete}
             onClick={() => handleDeleteClick(selectedIds)}
           >
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button variant='outline'>
+          <Button className='bg-amber-500 hover:bg-amber-600 text-white'>
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>
@@ -257,7 +257,12 @@ export function PostDataTable({
                   <TableCell>{post.postName}</TableCell>
                   <TableCell>{post.deptName || '-'}</TableCell>
                   <TableCell>{post.postSort}</TableCell>
-                  <TableCell>{renderStatusBadge(post.status)}</TableCell>
+                  <TableCell>
+            <Switch
+              checked={post.status === '0'}
+              onCheckedChange={(checked) => handleStatusChange(post, checked)}
+            />
+          </TableCell>
                   <TableCell>{post.createTime}</TableCell>
                   <TableCell>
                     <div className='flex items-center gap-1'>

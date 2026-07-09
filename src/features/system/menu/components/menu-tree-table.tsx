@@ -11,8 +11,6 @@ import {
   FolderIcon,
   FileTextIcon,
   SquareIcon,
-  EyeIcon,
-  EyeOffIcon,
 } from 'lucide-react'
 import {
   AlertDialog,
@@ -24,8 +22,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
   Table,
@@ -35,8 +33,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { menuList, deleteMenu } from '@/features/system/shared/api'
-import type { Menu } from '@/features/system/shared/types'
+import { menuList, deleteMenu, updateMenu } from '@/features/system/shared/api'
+import type { Menu, MenuForm } from '@/features/system/shared/types'
 
 interface MenuTreeTableProps {
   onAdd: () => void
@@ -227,7 +225,7 @@ export function MenuTreeTable({
     <Card>
       <CardHeader className='border-b px-4 py-3'>
         <div className='flex items-center gap-2'>
-          <Button variant='outline' onClick={onAdd}>
+          <Button onClick={onAdd}>
             <PlusIcon className='size-4' />
             新增
           </Button>
@@ -323,16 +321,19 @@ export function MenuTreeTable({
                       )}
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        variant={menu.visible === '0' ? 'default' : 'secondary'}
-                      >
-                        {menu.visible === '0' ? (
-                          <EyeIcon className='mr-1 size-3' />
-                        ) : (
-                          <EyeOffIcon className='mr-1 size-3' />
-                        )}
-                        {menu.visible === '0' ? '显示' : '隐藏'}
-                      </Badge>
+                      <Switch
+                        checked={menu.visible === '0'}
+                        onCheckedChange={async (checked) => {
+                          const newVisible = checked ? '0' : '1'
+                          const res = await updateMenu({
+                            ...menu,
+                            visible: newVisible,
+                          } as MenuForm)
+                          if (res.code === 200) {
+                            loadMenus()
+                          }
+                        }}
+                      />
                     </TableCell>
                     <TableCell>{menu.createTime}</TableCell>
                     <TableCell>
