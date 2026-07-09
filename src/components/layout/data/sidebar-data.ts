@@ -29,6 +29,7 @@ import {
   BookOpen,
   Settings2,
   Megaphone,
+  Smartphone,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -85,6 +86,11 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: Users,
+        },
+        {
+          title: '手机版抖音',
+          url: '/tiktok',
+          icon: Smartphone,
         },
         {
           title: 'Secured by Clerk',
