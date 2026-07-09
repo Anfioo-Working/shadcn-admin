@@ -22,6 +22,7 @@ import {
   Command,
   GalleryVerticalEnd,
   LayoutGrid,
+  BarChart3,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -67,6 +68,11 @@ export const sidebarData: SidebarData = {
           title: 'Kanban',
           url: '/kanban',
           icon: LayoutGrid,
+        },
+        {
+          title: '电商看板',
+          url: '/ecommerce',
+          icon: BarChart3,
         },
         {
           title: 'Apps',
