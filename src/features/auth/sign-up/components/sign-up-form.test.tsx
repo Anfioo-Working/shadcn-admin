@@ -3,12 +3,17 @@ import { render, type RenderResult } from 'vitest-browser-react'
 import { type Locator, userEvent } from 'vitest/browser'
 import { SignUpForm } from './sign-up-form'
 
+const CAPTCHA_CODE = 'ABCD'
+
 const FORM_MESSAGES = {
-  emailEmpty: 'Please enter your email.',
-  passwordEmpty: 'Please enter your password.',
-  confirmPasswordEmpty: 'Please confirm your password.',
-  passwordMismatch: "Passwords don't match.",
+  usernameEmpty: '请输入您的账号',
+  passwordEmpty: '请输入您的密码',
+  confirmPasswordEmpty: '请确认您的密码',
+  passwordMismatch: '两次输入的密码不一致',
 } as const
+
+const navigate = vi.fn()
+const registerMock = vi.fn(() => Promise.resolve())
 
 const toastPromise = vi.hoisted(() =>
   vi.fn((p: Promise<unknown>, opts: { success?: () => unknown }) => {
@@ -16,23 +21,61 @@ const toastPromise = vi.hoisted(() =>
   })
 )
 
+vi.mock('@/features/auth/shared/auth-api', () => ({
+  DEFAULT_TENANT_ID: '000000',
+  getCodeImg: vi.fn(() =>
+    Promise.resolve({
+      captchaEnabled: true,
+      uuid: 'test-uuid',
+      img: 'data:image/png;base64,MOCK',
+      code: CAPTCHA_CODE,
+    })
+  ),
+  getTenantList: vi.fn(() =>
+    Promise.resolve({
+      tenantEnabled: true,
+      voList: [{ tenantId: '000000', companyName: '测试租户' }],
+    })
+  ),
+  register: registerMock,
+}))
+
 vi.mock('sonner', () => ({ toast: { promise: toastPromise } }))
+
+vi.mock('@tanstack/react-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@tanstack/react-router')>()
+  return {
+    ...actual,
+    useNavigate: () => navigate,
+  }
+})
+
+/** 等待验证码图片加载完成 (loadCaptcha 异步设置 codeUrl / expectedCode) */
+async function waitForCaptchaLoaded() {
+  await vi.waitFor(() => {
+    const img = document.querySelector('img[alt="验证码"]')
+    expect(img).not.toBeNull()
+  })
+}
 
 describe('SignUpForm', () => {
   let screen: RenderResult
-  let emailInput: Locator
+  let usernameInput: Locator
   let passwordInput: Locator
   let confirmPasswordInput: Locator
+  let codeInput: Locator
   let submitButton: Locator
 
   beforeEach(async () => {
     vi.clearAllMocks()
 
     screen = await render(<SignUpForm />)
-    emailInput = screen.getByRole('textbox', { name: /^Email$/i })
-    passwordInput = screen.getByLabelText(/^Password$/i)
-    confirmPasswordInput = screen.getByLabelText(/^Confirm Password$/i)
-    submitButton = screen.getByRole('button', { name: /^Create Account$/i })
+    await waitForCaptchaLoaded()
+    usernameInput = screen.getByPlaceholder('请输入您的账号')
+    passwordInput = screen.getByPlaceholder('请输入您的密码')
+    confirmPasswordInput = screen.getByPlaceholder('请再次输入密码')
+    codeInput = screen.getByPlaceholder('请输入验证码')
+    submitButton = screen.getByRole('button', { name: '注册' })
   })
 
   afterEach(() => {
@@ -40,9 +83,10 @@ describe('SignUpForm', () => {
   })
 
   it('renders fields and submit button', async () => {
-    await expect.element(emailInput).toBeInTheDocument()
+    await expect.element(usernameInput).toBeInTheDocument()
     await expect.element(passwordInput).toBeInTheDocument()
     await expect.element(confirmPasswordInput).toBeInTheDocument()
+    await expect.element(codeInput).toBeInTheDocument()
     await expect.element(submitButton).toBeInTheDocument()
   })
 
@@ -50,7 +94,7 @@ describe('SignUpForm', () => {
     await userEvent.click(submitButton)
 
     await expect
-      .element(screen.getByText(FORM_MESSAGES.emailEmpty))
+      .element(screen.getByText(FORM_MESSAGES.usernameEmpty))
       .toBeInTheDocument()
     await expect
       .element(screen.getByText(FORM_MESSAGES.passwordEmpty))
@@ -61,9 +105,9 @@ describe('SignUpForm', () => {
   })
 
   it('shows a mismatch error when passwords do not match', async () => {
-    await userEvent.fill(emailInput, 'a@b.com')
-    await userEvent.fill(passwordInput, '1234567')
-    await userEvent.fill(confirmPasswordInput, '7654321')
+    await userEvent.fill(usernameInput, 'alice')
+    await userEvent.fill(passwordInput, '12345')
+    await userEvent.fill(confirmPasswordInput, '54321')
 
     await userEvent.click(submitButton)
     await expect
@@ -71,18 +115,26 @@ describe('SignUpForm', () => {
       .toBeInTheDocument()
   })
 
-  it('disables submit while submitting and re-enables after timeout', async () => {
-    vi.useFakeTimers()
-
-    await userEvent.fill(emailInput, 'a@b.com')
-    await userEvent.fill(passwordInput, '1234567')
-    await userEvent.fill(confirmPasswordInput, '1234567')
+  it('registers and navigates to sign-in on success', async () => {
+    await userEvent.fill(usernameInput, 'alice')
+    await userEvent.fill(passwordInput, '12345')
+    await userEvent.fill(confirmPasswordInput, '12345')
+    await userEvent.fill(codeInput, CAPTCHA_CODE)
 
     await userEvent.click(submitButton)
-    await expect.element(submitButton).toBeDisabled()
 
-    await vi.advanceTimersByTimeAsync(2000)
-    await expect.element(submitButton).toBeEnabled()
-    expect(toastPromise).toHaveBeenCalledOnce()
+    await vi.waitFor(() => expect(registerMock).toHaveBeenCalledOnce())
+    expect(registerMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        username: 'alice',
+        password: '12345',
+        confirmPassword: '12345',
+        userType: 'sys_user',
+      })
+    )
+
+    await vi.waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith({ to: '/sign-in' })
+    )
   })
 })
