@@ -157,14 +157,8 @@ describe('UserAuthForm', () => {
     await waitForCaptchaLoaded()
 
     await userEvent.fill(screen.getByPlaceholder('请输入您的账号'), 'admin')
-    await userEvent.fill(
-      screen.getByPlaceholder('请输入您的密码'),
-      '123456'
-    )
-    await userEvent.fill(
-      screen.getByPlaceholder('请输入验证码'),
-      CAPTCHA_CODE
-    )
+    await userEvent.fill(screen.getByPlaceholder('请输入您的密码'), '123456')
+    await userEvent.fill(screen.getByPlaceholder('请输入验证码'), CAPTCHA_CODE)
 
     await userEvent.click(screen.getByRole('button', { name: '登录' }))
 

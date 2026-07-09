@@ -40,6 +40,14 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedSystemUserIndexRouteImport } from './routes/_authenticated/system/user/index'
+import { Route as AuthenticatedSystemRoleIndexRouteImport } from './routes/_authenticated/system/role/index'
+import { Route as AuthenticatedSystemPostIndexRouteImport } from './routes/_authenticated/system/post/index'
+import { Route as AuthenticatedSystemNoticeIndexRouteImport } from './routes/_authenticated/system/notice/index'
+import { Route as AuthenticatedSystemMenuIndexRouteImport } from './routes/_authenticated/system/menu/index'
+import { Route as AuthenticatedSystemDictIndexRouteImport } from './routes/_authenticated/system/dict/index'
+import { Route as AuthenticatedSystemDeptIndexRouteImport } from './routes/_authenticated/system/dept/index'
+import { Route as AuthenticatedSystemConfigIndexRouteImport } from './routes/_authenticated/system/config/index'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -202,6 +210,54 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemUserIndexRoute =
+  AuthenticatedSystemUserIndexRouteImport.update({
+    id: '/system/user/',
+    path: '/system/user/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemRoleIndexRoute =
+  AuthenticatedSystemRoleIndexRouteImport.update({
+    id: '/system/role/',
+    path: '/system/role/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemPostIndexRoute =
+  AuthenticatedSystemPostIndexRouteImport.update({
+    id: '/system/post/',
+    path: '/system/post/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemNoticeIndexRoute =
+  AuthenticatedSystemNoticeIndexRouteImport.update({
+    id: '/system/notice/',
+    path: '/system/notice/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemMenuIndexRoute =
+  AuthenticatedSystemMenuIndexRouteImport.update({
+    id: '/system/menu/',
+    path: '/system/menu/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemDictIndexRoute =
+  AuthenticatedSystemDictIndexRouteImport.update({
+    id: '/system/dict/',
+    path: '/system/dict/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemDeptIndexRoute =
+  AuthenticatedSystemDeptIndexRouteImport.update({
+    id: '/system/dept/',
+    path: '/system/dept/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemConfigIndexRoute =
+  AuthenticatedSystemConfigIndexRouteImport.update({
+    id: '/system/config/',
+    path: '/system/config/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -232,6 +288,14 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/system/config/': typeof AuthenticatedSystemConfigIndexRoute
+  '/system/dept/': typeof AuthenticatedSystemDeptIndexRoute
+  '/system/dict/': typeof AuthenticatedSystemDictIndexRoute
+  '/system/menu/': typeof AuthenticatedSystemMenuIndexRoute
+  '/system/notice/': typeof AuthenticatedSystemNoticeIndexRoute
+  '/system/post/': typeof AuthenticatedSystemPostIndexRoute
+  '/system/role/': typeof AuthenticatedSystemRoleIndexRoute
+  '/system/user/': typeof AuthenticatedSystemUserIndexRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -261,6 +325,14 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/system/config': typeof AuthenticatedSystemConfigIndexRoute
+  '/system/dept': typeof AuthenticatedSystemDeptIndexRoute
+  '/system/dict': typeof AuthenticatedSystemDictIndexRoute
+  '/system/menu': typeof AuthenticatedSystemMenuIndexRoute
+  '/system/notice': typeof AuthenticatedSystemNoticeIndexRoute
+  '/system/post': typeof AuthenticatedSystemPostIndexRoute
+  '/system/role': typeof AuthenticatedSystemRoleIndexRoute
+  '/system/user': typeof AuthenticatedSystemUserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -295,6 +367,14 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/system/config/': typeof AuthenticatedSystemConfigIndexRoute
+  '/_authenticated/system/dept/': typeof AuthenticatedSystemDeptIndexRoute
+  '/_authenticated/system/dict/': typeof AuthenticatedSystemDictIndexRoute
+  '/_authenticated/system/menu/': typeof AuthenticatedSystemMenuIndexRoute
+  '/_authenticated/system/notice/': typeof AuthenticatedSystemNoticeIndexRoute
+  '/_authenticated/system/post/': typeof AuthenticatedSystemPostIndexRoute
+  '/_authenticated/system/role/': typeof AuthenticatedSystemRoleIndexRoute
+  '/_authenticated/system/user/': typeof AuthenticatedSystemUserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -327,6 +407,14 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks/'
     | '/users/'
+    | '/system/config/'
+    | '/system/dept/'
+    | '/system/dict/'
+    | '/system/menu/'
+    | '/system/notice/'
+    | '/system/post/'
+    | '/system/role/'
+    | '/system/user/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -356,6 +444,14 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/system/config'
+    | '/system/dept'
+    | '/system/dict'
+    | '/system/menu'
+    | '/system/notice'
+    | '/system/post'
+    | '/system/role'
+    | '/system/user'
   id:
     | '__root__'
     | '/_authenticated'
@@ -389,6 +485,14 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/system/config/'
+    | '/_authenticated/system/dept/'
+    | '/_authenticated/system/dict/'
+    | '/_authenticated/system/menu/'
+    | '/_authenticated/system/notice/'
+    | '/_authenticated/system/post/'
+    | '/_authenticated/system/role/'
+    | '/_authenticated/system/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -626,6 +730,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/system/user/': {
+      id: '/_authenticated/system/user/'
+      path: '/system/user'
+      fullPath: '/system/user/'
+      preLoaderRoute: typeof AuthenticatedSystemUserIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/role/': {
+      id: '/_authenticated/system/role/'
+      path: '/system/role'
+      fullPath: '/system/role/'
+      preLoaderRoute: typeof AuthenticatedSystemRoleIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/post/': {
+      id: '/_authenticated/system/post/'
+      path: '/system/post'
+      fullPath: '/system/post/'
+      preLoaderRoute: typeof AuthenticatedSystemPostIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/notice/': {
+      id: '/_authenticated/system/notice/'
+      path: '/system/notice'
+      fullPath: '/system/notice/'
+      preLoaderRoute: typeof AuthenticatedSystemNoticeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/menu/': {
+      id: '/_authenticated/system/menu/'
+      path: '/system/menu'
+      fullPath: '/system/menu/'
+      preLoaderRoute: typeof AuthenticatedSystemMenuIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/dict/': {
+      id: '/_authenticated/system/dict/'
+      path: '/system/dict'
+      fullPath: '/system/dict/'
+      preLoaderRoute: typeof AuthenticatedSystemDictIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/dept/': {
+      id: '/_authenticated/system/dept/'
+      path: '/system/dept'
+      fullPath: '/system/dept/'
+      preLoaderRoute: typeof AuthenticatedSystemDeptIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/config/': {
+      id: '/_authenticated/system/config/'
+      path: '/system/config'
+      fullPath: '/system/config/'
+      preLoaderRoute: typeof AuthenticatedSystemConfigIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -661,6 +821,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedSystemConfigIndexRoute: typeof AuthenticatedSystemConfigIndexRoute
+  AuthenticatedSystemDeptIndexRoute: typeof AuthenticatedSystemDeptIndexRoute
+  AuthenticatedSystemDictIndexRoute: typeof AuthenticatedSystemDictIndexRoute
+  AuthenticatedSystemMenuIndexRoute: typeof AuthenticatedSystemMenuIndexRoute
+  AuthenticatedSystemNoticeIndexRoute: typeof AuthenticatedSystemNoticeIndexRoute
+  AuthenticatedSystemPostIndexRoute: typeof AuthenticatedSystemPostIndexRoute
+  AuthenticatedSystemRoleIndexRoute: typeof AuthenticatedSystemRoleIndexRoute
+  AuthenticatedSystemUserIndexRoute: typeof AuthenticatedSystemUserIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -672,6 +840,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedSystemConfigIndexRoute: AuthenticatedSystemConfigIndexRoute,
+  AuthenticatedSystemDeptIndexRoute: AuthenticatedSystemDeptIndexRoute,
+  AuthenticatedSystemDictIndexRoute: AuthenticatedSystemDictIndexRoute,
+  AuthenticatedSystemMenuIndexRoute: AuthenticatedSystemMenuIndexRoute,
+  AuthenticatedSystemNoticeIndexRoute: AuthenticatedSystemNoticeIndexRoute,
+  AuthenticatedSystemPostIndexRoute: AuthenticatedSystemPostIndexRoute,
+  AuthenticatedSystemRoleIndexRoute: AuthenticatedSystemRoleIndexRoute,
+  AuthenticatedSystemUserIndexRoute: AuthenticatedSystemUserIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

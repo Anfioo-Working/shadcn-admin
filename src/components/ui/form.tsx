@@ -7,13 +7,42 @@ import {
   type ControllerProps,
   type FieldPath,
   type FieldValues,
+  type UseFormReturn,
 } from 'react-hook-form'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
 
-const Form = FormProvider
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FormProps = React.PropsWithChildren<{
+  form?: UseFormReturn<any>
+  onSubmit?: (values: any) => Promise<void> | void
+}> &
+  Record<string, unknown>
+
+function Form({ children, form, onSubmit, ...props }: FormProps) {
+  // 如果有 form 和 onSubmit，使用带提交的表单包装
+  if (form && onSubmit) {
+    return (
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+          {children}
+        </form>
+      </FormProvider>
+    )
+  }
+  // 否则直接渲染 children（用于嵌套在 FormProvider 内部的情况）
+  if (Object.keys(props).length === 0 && !form && !onSubmit) {
+    return <>{children}</>
+  }
+  // 如果有 props 但没有 form/onSubmit，作为 FormProvider 使用
+  return (
+    <FormProvider {...(props as UseFormReturn<FieldValues>)}>
+      {children}
+    </FormProvider>
+  )
+}
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,

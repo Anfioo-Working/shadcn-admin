@@ -21,6 +21,14 @@ import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
+  UserCircle,
+  Shield,
+  Menu,
+  Building,
+  Briefcase,
+  BookOpen,
+  Settings2,
+  Megaphone,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -95,6 +103,51 @@ export const sidebarData: SidebarData = {
               url: '/clerk/user-management',
             },
           ],
+        },
+      ],
+    },
+    {
+      title: '系统管理',
+      items: [
+        {
+          title: '用户管理',
+          url: '/system/user',
+          icon: UserCircle,
+        },
+        {
+          title: '角色管理',
+          url: '/system/role',
+          icon: Shield,
+        },
+        {
+          title: '菜单管理',
+          url: '/system/menu',
+          icon: Menu,
+        },
+        {
+          title: '部门管理',
+          url: '/system/dept',
+          icon: Building,
+        },
+        {
+          title: '岗位管理',
+          url: '/system/post',
+          icon: Briefcase,
+        },
+        {
+          title: '字典管理',
+          url: '/system/dict',
+          icon: BookOpen,
+        },
+        {
+          title: '系统配置',
+          url: '/system/config',
+          icon: Settings2,
+        },
+        {
+          title: '通知公告',
+          url: '/system/notice',
+          icon: Megaphone,
         },
       ],
     },
