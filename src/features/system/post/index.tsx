@@ -9,6 +9,12 @@ import {
   PostSearchForm,
   type PostSearchParams,
 } from './components/post-search-form'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
 
 export default function PostPage() {
   // 部门选择状态
@@ -59,43 +65,53 @@ export default function PostPage() {
   }, [])
 
   return (
-    <div className='p-4'>
-      <div className='flex gap-4'>
-        {/* 左侧部门树 - 20% 宽度 */}
-        <div className='w-[20%] min-w-[200px]'>
-          <DeptTree
-            onDeptSelect={handleDeptSelect}
-            selectedDeptId={selectedDeptId}
-          />
+    <>
+      <Header fixed>
+        <Search className='me-auto' />
+        <ThemeSwitch />
+        <ConfigDrawer />
+        <ProfileDropdown />
+      </Header>
+      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
+        <div className='flex flex-wrap items-end justify-between gap-2'>
+          <div>
+            <h2 className='text-2xl font-bold tracking-tight'>Position Management</h2>
+            <p className='text-muted-foreground'>Manage positions</p>
+          </div>
         </div>
 
-        {/* 右侧岗位表格 - 80% 宽度 */}
-        <div className='flex-1'>
-          {/* 搜索表单 */}
-          <PostSearchForm
-            onSearch={handleSearch}
-            onReset={handleReset}
-            defaultValues={searchParams}
-          />
+        <div className='flex gap-4'>
+          <div className='w-[20%] min-w-[200px]'>
+            <DeptTree
+              onDeptSelect={handleDeptSelect}
+              selectedDeptId={selectedDeptId}
+            />
+          </div>
 
-          {/* 岗位数据表格 */}
-          <PostDataTable
-            key={refreshKey}
-            searchParams={searchParams}
-            deptId={selectedDeptId}
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-          />
+          <div className='flex-1'>
+            <PostSearchForm
+              onSearch={handleSearch}
+              onReset={handleReset}
+              defaultValues={searchParams}
+            />
+
+            <PostDataTable
+              key={refreshKey}
+              searchParams={searchParams}
+              deptId={selectedDeptId}
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+            />
+          </div>
         </div>
-      </div>
+      </Main>
 
-      {/* 岗位表单对话框 */}
       <PostFormDialog
         open={formDialogOpen}
         onOpenChange={setFormDialogOpen}
         onSuccess={handleFormSuccess}
         postId={editingPostId}
       />
-    </div>
+    </>
   )
 }

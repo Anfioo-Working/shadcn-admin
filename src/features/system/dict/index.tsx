@@ -9,6 +9,12 @@ import {
 } from './components/dict-dialogs'
 import { DictTypeTable } from './components/dict-type-table'
 import type { DictTypeSearchParams } from './data/schema'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
 
 export default function DictPage() {
   // 搜索参数状态
@@ -69,32 +75,44 @@ export default function DictPage() {
   }, [])
 
   return (
-    <div className='h-full p-4'>
-      <div className='grid h-full grid-cols-1 gap-4 lg:grid-cols-2'>
-        {/* 字典类型表格 */}
-        <div className='min-h-[500px]'>
-          <DictTypeTable
-            searchParams={searchParams}
-            onEdit={handleEditDictType}
-            onAdd={handleAddDictType}
-            onRowClick={handleDictTypeRowClick}
-            selectedDictType={selectedDictType}
-            refreshKey={typeRefreshKey}
-          />
+    <>
+      <Header fixed>
+        <Search className='me-auto' />
+        <ThemeSwitch />
+        <ConfigDrawer />
+        <ProfileDropdown />
+      </Header>
+      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
+        <div className='flex flex-wrap items-end justify-between gap-2'>
+          <div>
+            <h2 className='text-2xl font-bold tracking-tight'>Dictionary Management</h2>
+            <p className='text-muted-foreground'>Manage dictionary types and data</p>
+          </div>
         </div>
 
-        {/* 字典数据表格 */}
-        <div className='min-h-[500px]'>
-          <DictDataTable
-            selectedDictType={selectedDictType}
-            onEdit={handleEditDictData}
-            onAdd={handleAddDictData}
-            refreshKey={dataRefreshKey}
-          />
-        </div>
-      </div>
+        <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+          <div className='min-h-[500px]'>
+            <DictTypeTable
+              searchParams={searchParams}
+              onEdit={handleEditDictType}
+              onAdd={handleAddDictType}
+              onRowClick={handleDictTypeRowClick}
+              selectedDictType={selectedDictType}
+              refreshKey={typeRefreshKey}
+            />
+          </div>
 
-      {/* 字典类型表单对话框 */}
+          <div className='min-h-[500px]'>
+            <DictDataTable
+              selectedDictType={selectedDictType}
+              onEdit={handleEditDictData}
+              onAdd={handleAddDictData}
+              refreshKey={dataRefreshKey}
+            />
+          </div>
+        </div>
+      </Main>
+
       <DictTypeFormDialog
         open={typeDialogOpen}
         onOpenChange={setTypeDialogOpen}
@@ -102,7 +120,6 @@ export default function DictPage() {
         dictType={editingDictType}
       />
 
-      {/* 字典数据表单对话框 */}
       <DictDataFormDialog
         open={dataDialogOpen}
         onOpenChange={setDataDialogOpen}
@@ -110,6 +127,6 @@ export default function DictPage() {
         dictData={editingDictData}
         selectedDictType={selectedDictType}
       />
-    </div>
+    </>
   )
 }

@@ -12,6 +12,12 @@ import {
   RoleSearchForm,
   type RoleSearchParams,
 } from './components/role-search-form'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
 
 export default function RolePage() {
   const [searchParams, setSearchParams] = useState<RoleSearchParams>({})
@@ -55,21 +61,36 @@ export default function RolePage() {
   }, [])
 
   return (
-    <div className='p-4'>
-      <RoleSearchForm
-        onSearch={handleSearch}
-        onReset={handleReset}
-        defaultValues={searchParams}
-      />
+    <>
+      <Header fixed>
+        <Search className='me-auto' />
+        <ThemeSwitch />
+        <ConfigDrawer />
+        <ProfileDropdown />
+      </Header>
+      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
+        <div className='flex flex-wrap items-end justify-between gap-2'>
+          <div>
+            <h2 className='text-2xl font-bold tracking-tight'>Role Management</h2>
+            <p className='text-muted-foreground'>Manage system roles and permissions</p>
+          </div>
+        </div>
 
-      <RoleDataTable
-        key={refreshKey}
-        searchParams={searchParams}
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-        onDataScopeAssign={handleDataScopeAssign}
-        onAssignUser={handleAssignUser}
-      />
+        <RoleSearchForm
+          onSearch={handleSearch}
+          onReset={handleReset}
+          defaultValues={searchParams}
+        />
+
+        <RoleDataTable
+          key={refreshKey}
+          searchParams={searchParams}
+          onAdd={handleAdd}
+          onEdit={handleEdit}
+          onDataScopeAssign={handleDataScopeAssign}
+          onAssignUser={handleAssignUser}
+        />
+      </Main>
 
       <RoleFormDialog
         open={formDialogOpen}
@@ -84,6 +105,6 @@ export default function RolePage() {
         onSuccess={handleFormSuccess}
         role={dataScopeRole}
       />
-    </div>
+    </>
   )
 }

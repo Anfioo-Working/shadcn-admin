@@ -8,6 +8,12 @@ import {
   ConfigSearchForm,
   type ConfigSearchParams,
 } from './components/config-search-form'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
 
 export default function ConfigPage() {
   // 搜索参数状态
@@ -48,29 +54,41 @@ export default function ConfigPage() {
   }, [])
 
   return (
-    <div className='p-4'>
-      {/* 搜索表单 */}
-      <ConfigSearchForm
-        onSearch={handleSearch}
-        onReset={handleReset}
-        defaultValues={searchParams}
-      />
+    <>
+      <Header fixed>
+        <Search className='me-auto' />
+        <ThemeSwitch />
+        <ConfigDrawer />
+        <ProfileDropdown />
+      </Header>
+      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
+        <div className='flex flex-wrap items-end justify-between gap-2'>
+          <div>
+            <h2 className='text-2xl font-bold tracking-tight'>System Configuration</h2>
+            <p className='text-muted-foreground'>Manage system configurations</p>
+          </div>
+        </div>
 
-      {/* 配置数据表格 */}
-      <ConfigDataTable
-        key={refreshKey}
-        searchParams={searchParams}
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-      />
+        <ConfigSearchForm
+          onSearch={handleSearch}
+          onReset={handleReset}
+          defaultValues={searchParams}
+        />
 
-      {/* 配置表单对话框 */}
+        <ConfigDataTable
+          key={refreshKey}
+          searchParams={searchParams}
+          onAdd={handleAdd}
+          onEdit={handleEdit}
+        />
+      </Main>
+
       <ConfigFormDialog
         open={formDialogOpen}
         onOpenChange={setFormDialogOpen}
         onSuccess={handleFormSuccess}
         config={editingConfig}
       />
-    </div>
+    </>
   )
 }
