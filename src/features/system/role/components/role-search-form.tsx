@@ -2,9 +2,16 @@
 
 import * as React from 'react'
 import { SearchIcon, RefreshCcwIcon, CalendarDaysIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -12,9 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { cn } from '@/lib/utils'
 
 interface RoleSearchFormProps {
   onSearch: (params: RoleSearchParams) => void
@@ -51,8 +55,14 @@ export function RoleSearchForm({
         setRoleName(defaultValues.roleName || '')
         setRoleKey(defaultValues.roleKey || '')
         setStatus(defaultValues.status || '')
-        setBeginTime(defaultValues.beginTime ? new Date(defaultValues.beginTime) : undefined)
-        setEndTime(defaultValues.endTime ? new Date(defaultValues.endTime) : undefined)
+        setBeginTime(
+          defaultValues.beginTime
+            ? new Date(defaultValues.beginTime)
+            : undefined
+        )
+        setEndTime(
+          defaultValues.endTime ? new Date(defaultValues.endTime) : undefined
+        )
       }
     })()
   }, [defaultValues])
@@ -152,7 +162,8 @@ export function RoleSearchForm({
                     selected={beginTime}
                     onSelect={setBeginTime}
                     disabled={(date) =>
-                      date > new Date() || (endTime !== undefined && date > endTime)
+                      date > new Date() ||
+                      (endTime !== undefined && date > endTime)
                     }
                   />
                 </PopoverContent>
@@ -177,7 +188,8 @@ export function RoleSearchForm({
                     selected={endTime}
                     onSelect={setEndTime}
                     disabled={(date) =>
-                      date > new Date() || (beginTime !== undefined && date < beginTime)
+                      date > new Date() ||
+                      (beginTime !== undefined && date < beginTime)
                     }
                   />
                 </PopoverContent>

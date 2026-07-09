@@ -12,15 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import type { Dept } from '@/features/system/shared/types'
 import { DeptFormDialog } from './components/dept-dialogs'
 import { DeptTreeTable } from './components/dept-tree-table'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
 
 // 搜索参数类型
 interface DeptSearchParams {
@@ -100,7 +100,9 @@ export default function DeptPage() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Department Management</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              Department Management
+            </h2>
             <p className='text-muted-foreground'>Manage departments</p>
           </div>
         </div>

@@ -26,7 +26,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Switch } from '@/components/ui/switch'
 import {
   Select,
   SelectContent,
@@ -34,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import {
   Table,
   TableBody,
@@ -42,7 +42,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { roleList, deleteRole, changeRoleStatus } from '@/features/system/shared/api'
+import {
+  roleList,
+  deleteRole,
+  changeRoleStatus,
+} from '@/features/system/shared/api'
 import type { Role } from '@/features/system/shared/types'
 import type { RoleSearchParams } from './role-search-form'
 
@@ -70,7 +74,10 @@ export function RoleDataTable({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<number[] | null>(null)
   const [statusDialogOpen, setStatusDialogOpen] = useState(false)
-  const [statusTarget, setStatusTarget] = useState<{ roleId: number; newStatus: string } | null>(null)
+  const [statusTarget, setStatusTarget] = useState<{
+    roleId: number
+    newStatus: string
+  } | null>(null)
 
   const loadRoles = React.useCallback(async () => {
     setLoading(true)
@@ -203,7 +210,7 @@ export function RoleDataTable({
             删除
           </Button>
           <Button
-            className='bg-amber-500 hover:bg-amber-600 text-white'
+            className='bg-amber-500 text-white hover:bg-amber-600'
             onClick={handleExport}
           >
             <DownloadIcon data-icon='inline-start' />
@@ -271,7 +278,9 @@ export function RoleDataTable({
                   <TableCell>
                     <Switch
                       checked={role.status === '0'}
-                      onCheckedChange={() => handleStatusChange(role.roleId, role.status)}
+                      onCheckedChange={() =>
+                        handleStatusChange(role.roleId, role.status)
+                      }
                       disabled={role.roleId === 1}
                     />
                   </TableCell>

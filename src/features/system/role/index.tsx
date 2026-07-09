@@ -2,22 +2,19 @@
 
 import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import type { Role } from '@/features/system/shared/types'
 import { RoleDataTable } from './components/role-data-table'
-import {
-  RoleFormDialog,
-  DataScopeDialog,
-} from './components/role-dialogs'
+import { RoleFormDialog, DataScopeDialog } from './components/role-dialogs'
 import {
   RoleSearchForm,
   type RoleSearchParams,
 } from './components/role-search-form'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
 
 export default function RolePage() {
   const [searchParams, setSearchParams] = useState<RoleSearchParams>({})
@@ -71,8 +68,12 @@ export default function RolePage() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Role Management</h2>
-            <p className='text-muted-foreground'>Manage system roles and permissions</p>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              Role Management
+            </h2>
+            <p className='text-muted-foreground'>
+              Manage system roles and permissions
+            </p>
           </div>
         </div>
 

@@ -246,7 +246,7 @@ export function DictTypeTable({
             新增
           </Button>
           <Button
-            className='bg-green-600 hover:bg-green-700 text-white'
+            className='bg-green-600 text-white hover:bg-green-700'
             size='sm'
             disabled={!canEdit}
             onClick={() => {
@@ -268,7 +268,10 @@ export function DictTypeTable({
             <Trash2Icon className='size-4' />
             删除
           </Button>
-          <Button className='bg-amber-500 hover:bg-amber-600 text-white' size='sm'>
+          <Button
+            className='bg-amber-500 text-white hover:bg-amber-600'
+            size='sm'
+          >
             <DownloadIcon className='size-4' />
             导出
           </Button>

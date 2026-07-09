@@ -2,8 +2,6 @@
 
 import * as React from 'react'
 import { useState, useMemo } from 'react'
-import { toast } from 'sonner'
-import { sleep } from '@/lib/utils'
 import {
   PencilIcon,
   Trash2Icon,
@@ -16,6 +14,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-react'
+import { toast } from 'sonner'
+import { sleep } from '@/lib/utils'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -233,7 +233,7 @@ export function UserDataTable({
             新增
           </Button>
           <Button
-            className='bg-green-600 hover:bg-green-700 text-white'
+            className='bg-green-600 text-white hover:bg-green-700'
             disabled={!canEdit}
             onClick={() => {
               const user = users.find((u) => u.userId === selectedIds[0])
@@ -252,7 +252,7 @@ export function UserDataTable({
             删除
           </Button>
           <Button
-            className='bg-amber-500 hover:bg-amber-600 text-white'
+            className='bg-amber-500 text-white hover:bg-amber-600'
             onClick={handleExport}
           >
             <DownloadIcon data-icon='inline-start' />
@@ -357,7 +357,7 @@ export function UserDataTable({
                             variant='ghost'
                             size='sm'
                             onClick={() => onEdit(user)}
-                            className='h-7 px-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50'
+                            className='h-7 px-2 text-blue-600 hover:bg-blue-50 hover:text-blue-700'
                           >
                             <PencilIcon className='size-3.5' />
                             修改
@@ -366,7 +366,7 @@ export function UserDataTable({
                             variant='ghost'
                             size='sm'
                             onClick={() => handleDeleteClick([user.userId])}
-                            className='h-7 px-2 text-red-600 hover:text-red-700 hover:bg-red-50'
+                            className='h-7 px-2 text-red-600 hover:bg-red-50 hover:text-red-700'
                           >
                             <Trash2Icon className='size-3.5' />
                             删除
@@ -375,7 +375,7 @@ export function UserDataTable({
                             variant='ghost'
                             size='sm'
                             onClick={() => onResetPassword(user)}
-                            className='h-7 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-50'
+                            className='h-7 px-2 text-orange-600 hover:bg-orange-50 hover:text-orange-700'
                           >
                             <KeyIcon className='size-3.5' />
                             重置密码
@@ -384,7 +384,7 @@ export function UserDataTable({
                             variant='ghost'
                             size='sm'
                             onClick={() => toast.info('分配角色功能开发中')}
-                            className='h-7 px-2 text-green-600 hover:text-green-700 hover:bg-green-50'
+                            className='h-7 px-2 text-green-600 hover:bg-green-50 hover:text-green-700'
                           >
                             <CircleCheckIcon className='size-3.5' />
                             分配角色

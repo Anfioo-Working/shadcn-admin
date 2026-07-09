@@ -22,7 +22,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -32,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import {
   Table,
   TableBody,
@@ -180,7 +180,7 @@ export function ConfigDataTable({
             新增
           </Button>
           <Button
-            className='bg-green-600 hover:bg-green-700 text-white'
+            className='bg-green-600 text-white hover:bg-green-700'
             disabled={!canEdit}
             onClick={() => {
               const config = configs.find((c) => c.configId === selectedIds[0])
@@ -198,7 +198,7 @@ export function ConfigDataTable({
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button className='bg-amber-500 hover:bg-amber-600 text-white'>
+          <Button className='bg-amber-500 text-white hover:bg-amber-600'>
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>

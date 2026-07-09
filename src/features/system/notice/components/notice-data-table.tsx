@@ -21,7 +21,6 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -31,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import {
   Table,
   TableBody,
@@ -39,7 +39,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { noticeList, deleteNotice, updateNotice } from '@/features/system/shared/api'
+import {
+  noticeList,
+  deleteNotice,
+  updateNotice,
+} from '@/features/system/shared/api'
 import type { Notice, NoticeForm } from '@/features/system/shared/types'
 import type { NoticeSearchParams } from './notice-search-form'
 
@@ -188,7 +192,7 @@ export function NoticeDataTable({
             新增
           </Button>
           <Button
-            className='bg-green-600 hover:bg-green-700 text-white'
+            className='bg-green-600 text-white hover:bg-green-700'
             disabled={!canEdit}
             onClick={() => {
               const notice = notices.find((n) => n.noticeId === selectedIds[0])
@@ -266,11 +270,13 @@ export function NoticeDataTable({
                   </TableCell>
                   <TableCell>{getNoticeTypeBadge(notice.noticeType)}</TableCell>
                   <TableCell>
-            <Switch
-              checked={notice.status === '0'}
-              onCheckedChange={(checked) => handleStatusChange(notice, checked)}
-            />
-          </TableCell>
+                    <Switch
+                      checked={notice.status === '0'}
+                      onCheckedChange={(checked) =>
+                        handleStatusChange(notice, checked)
+                      }
+                    />
+                  </TableCell>
                   <TableCell>{notice.createByName}</TableCell>
                   <TableCell>{formatDate(notice.createTime)}</TableCell>
                   <TableCell>

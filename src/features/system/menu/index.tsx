@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import type { Menu } from '@/features/system/shared/types'
 import { MenuFormDialog } from './components/menu-dialogs'
 import { MenuTreeTable } from './components/menu-tree-table'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
 
 export default function MenuPage() {
   // 对话框状态
@@ -59,7 +59,9 @@ export default function MenuPage() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Menu Management</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              Menu Management
+            </h2>
             <p className='text-muted-foreground'>Manage system menus</p>
           </div>
         </div>

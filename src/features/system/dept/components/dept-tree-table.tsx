@@ -20,8 +20,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Switch } from '@/components/ui/switch'
 import {
   Table,
   TableBody,

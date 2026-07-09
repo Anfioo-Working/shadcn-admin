@@ -21,7 +21,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -31,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import {
   Table,
   TableBody,
@@ -173,7 +173,7 @@ export function PostDataTable({
             新增
           </Button>
           <Button
-            className='bg-green-600 hover:bg-green-700 text-white'
+            className='bg-green-600 text-white hover:bg-green-700'
             disabled={!canEdit}
             onClick={() => {
               const post = posts.find((p) => p.postId === selectedIds[0])
@@ -191,7 +191,7 @@ export function PostDataTable({
             <Trash2Icon data-icon='inline-start' />
             删除
           </Button>
-          <Button className='bg-amber-500 hover:bg-amber-600 text-white'>
+          <Button className='bg-amber-500 text-white hover:bg-amber-600'>
             <DownloadIcon data-icon='inline-start' />
             导出
           </Button>
@@ -258,11 +258,13 @@ export function PostDataTable({
                   <TableCell>{post.deptName || '-'}</TableCell>
                   <TableCell>{post.postSort}</TableCell>
                   <TableCell>
-            <Switch
-              checked={post.status === '0'}
-              onCheckedChange={(checked) => handleStatusChange(post, checked)}
-            />
-          </TableCell>
+                    <Switch
+                      checked={post.status === '0'}
+                      onCheckedChange={(checked) =>
+                        handleStatusChange(post, checked)
+                      }
+                    />
+                  </TableCell>
                   <TableCell>{post.createTime}</TableCell>
                   <TableCell>
                     <div className='flex items-center gap-1'>
